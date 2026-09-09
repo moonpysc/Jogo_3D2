@@ -2,15 +2,22 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Movimento")]
+
+    public float velocity = 5f;
+    public float jumpForce = 6f;
+
+    private Rigidbody rb;
+    private bool isGrounded;
+
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+
     }
 }
