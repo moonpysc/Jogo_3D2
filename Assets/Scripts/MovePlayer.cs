@@ -31,6 +31,7 @@ public class MovePlayer : MonoBehaviour
         float v = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(h, 0f, v) * velocity;
+        movement = Vector3.ClampMagnitude(movement, 1f);
 
         rb.linearVelocity = new Vector3(
             movement.x,

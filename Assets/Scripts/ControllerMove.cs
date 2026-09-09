@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MovePlayer : MonoBehaviour
+public class ControllerMove : MonoBehaviour
 {
     [Header("Movement")]
 
