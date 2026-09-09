@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
-    [Header("Movimento")]
+    [Header("Movement")]
 
     public float velocity = 5f;
     public float jumpForce = 6f;
@@ -16,27 +16,30 @@ public class MovePlayer : MonoBehaviour
         rb.freezeRotation = true;
     }
 
-    private void Update()
+    void Update()
     {
-        if(Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
         }
-
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        Vector3 direction = new Vector3(h, 0f, v) * velocity;
-        direction.y = rb.linearVelocity.y;
+        Vector3 movement = new Vector3(h, 0f, v) * velocity;
 
-        rb.linearVelocity = direction;
+        rb.linearVelocity = new Vector3(
+            movement.x,
+            rb.linearVelocity.y,
+            movement.z
+        );
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
@@ -46,6 +49,9 @@ public class MovePlayer : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        isGrounded = false;
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
     }
 }
