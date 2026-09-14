@@ -30,8 +30,18 @@ public class MovePlayer : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(h, 0f, v) * velocity;
-        movement = Vector3.ClampMagnitude(movement, 1f);
+        Transform cameraTransform = Camera.main.transform;
+
+        Vector3 forward = cameraTransform.forward;
+        Vector3 right = cameraTransform.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 movement = (forward * v + right * h) * velocity;
 
         rb.linearVelocity = new Vector3(
             movement.x,
